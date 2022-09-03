@@ -34,6 +34,8 @@ public class TelaLogin extends javax.swing.JFrame {
           if (rs.next()) {
               TelaPrincipal principal = new TelaPrincipal();
               principal.setVisible(true);
+              this.dispose(); // fechar tela login depois de logar
+              conexao.close(); // fechar conexão com banco
           }
           else {
               JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido(s)");
