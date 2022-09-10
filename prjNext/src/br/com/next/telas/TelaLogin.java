@@ -8,6 +8,7 @@ package br.com.next.telas;
 
 import java.sql.*;
 import br.com.next.dal.ModuloConexao;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,10 +33,29 @@ public class TelaLogin extends javax.swing.JFrame {
           rs = pst.executeQuery();
           // se existir usuario e senha correspondente 
           if (rs.next()) {
-              TelaPrincipal principal = new TelaPrincipal();
-              principal.setVisible(true);
-              this.dispose(); // fechar tela login depois de logar
-              conexao.close(); // fechar conexão com banco
+              // a linha abaixo obtem o conteúdo do campo perfil da tabela tbusuarios;
+              String perfil = rs.getString(6);
+              //System.out.println(perfil);
+              // a estrutura abaixo faz o tratamento do perfil do usuário
+              if(perfil.equals("admin")) {
+                // O conteúdo abaixo exibe a tabela
+                TelaPrincipal principal = new TelaPrincipal();
+                principal.setVisible(true);
+                TelaPrincipal.MenRel.setEnabled(true);
+                TelaPrincipal.menCadUsu.setEnabled(true);
+                TelaPrincipal.lblUsuario.setText(rs.getString(2));
+                TelaPrincipal.lblUsuario.setForeground(Color.red);
+                this.dispose(); // fechar tela login depois de logar
+                conexao.close(); // fechar conexão com banco
+              }
+              else {
+                // O conteúdo abaixo exibe a tabela
+                TelaPrincipal principal = new TelaPrincipal();
+                principal.setVisible(true);
+                TelaPrincipal.lblUsuario.setText(rs.getString(2));
+                this.dispose(); // fechar tela login depois de logar
+                conexao.close(); // fechar conexão com banco
+              }
           }
           else {
               JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido(s)");
