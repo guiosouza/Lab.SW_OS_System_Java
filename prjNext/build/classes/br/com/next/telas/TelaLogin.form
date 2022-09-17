@@ -42,13 +42,14 @@
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtUsuario" max="32767" attributes="0"/>
-                          <Component id="txtSenha" min="-2" pref="198" max="-2" attributes="0"/>
+                          <Component id="txtUsuario" pref="186" max="32767" attributes="0"/>
+                          <Component id="txtSenha" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="64" max="32767" attributes="0"/>
+              <EmptySpace pref="82" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

@@ -49,6 +49,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Next - Sistema para Controle de Ordens de Serviço");
+        setPreferredSize(new java.awt.Dimension(1091, 600));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -57,16 +58,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         Desktop.setPreferredSize(new java.awt.Dimension(640, 480));
+        Desktop.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
         Desktop.setLayout(DesktopLayout);
         DesktopLayout.setHorizontalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 604, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 531, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/n.png"))); // NOI18N
@@ -95,6 +97,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menCadUsu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         menCadUsu.setText("Usuários");
         menCadUsu.setEnabled(false);
+        menCadUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCadUsuActionPerformed(evt);
+            }
+        });
         menCad.add(menCadUsu);
 
         Menu.add(menCad);
@@ -141,33 +148,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblData)
                     .addComponent(jLabel1)
                     .addComponent(lblUsuario))
-                .addGap(54, 54, 54))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
                         .addComponent(lblUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(lblData)
-                        .addGap(95, 95, 95)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1055, 585));
+        setSize(new java.awt.Dimension(1055, 593));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,6 +203,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         TelaSobre sobre = new TelaSobre();
         sobre.setVisible(true);
     }//GEN-LAST:event_MenAjuSobActionPerformed
+
+    private void menCadUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadUsuActionPerformed
+        // as linhas abaixo vão abrir o form TelaUsario dentro do Desktop pane
+        TelaUsuario usuario = new TelaUsuario();
+        usuario.setVisible(true);
+        Desktop.add(usuario);
+    }//GEN-LAST:event_menCadUsuActionPerformed
 
     /**
      * @param args the command line arguments
