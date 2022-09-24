@@ -6,18 +6,52 @@
 package br.com.next.telas;
 
 /**
- *
+ * 
  * @author guilh
  */
-public class TelaUsuario extends javax.swing.JInternalFrame {
+import java.sql.*;
+import br.com.next.dal.ModuloConexao;
+import javax.swing.JOptionPane;
 
+public class TelaUsuario extends javax.swing.JInternalFrame {
+    Connection conexao = null;
+    PreparedStatement pst = null;  // conjunto bibliote para manipular o SQL
+    ResultSet rs = null; // exibir resultado das instruções SQL
     /**
      * Creates new form TelaUsuario
      */
     public TelaUsuario() {
         initComponents();
+        conexao = ModuloConexao.conector();
     }
 
+    private void consultar() {
+        String sql  = "select * from tbusuarios where iduser=?";
+        try {
+            pst=conexao.prepareStatement(sql);
+            pst.setString(1, txtUsuId.getText());
+            rs=pst.executeQuery();
+            if (rs.next()) {
+                txtUsuNome.setText(rs.getString(2));
+                txtUsoFone.setText(rs.getString(3));
+                txtUsoLogin.setText(rs.getString(4));
+                txtUsoSenha.setText(rs.getString(5));
+                // A linha abaixo se refere ao combobox
+                cboUsoPerfil.setSelectedItem(rs.getString(6));
+            } 
+            else {
+                JOptionPane.showMessageDialog(null, "Usuário não cadastrado");
+                // As linhas abaixo limpam os campos
+                txtUsuNome.setText(null);
+                txtUsoFone.setText(null);
+                txtUsoLogin.setText(null);
+                txtUsoSenha.setText(null);
+                cboUsoPerfil.setSelectedItem(null);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,6 +113,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsoRead.setToolTipText("Consultar");
         btnUsoRead.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsoRead.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnUsoRead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsoReadActionPerformed(evt);
+            }
+        });
 
         btnUsoUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/update.png"))); // NOI18N
         btnUsoUpdate.setToolTipText("Atualizar");
@@ -171,6 +210,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     private void txtUsuIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuIdActionPerformed
+
+    private void btnUsoReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsoReadActionPerformed
+        // Chamando o método consultar
+        consultar();
+    }//GEN-LAST:event_btnUsoReadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
