@@ -67,10 +67,10 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             pst.setString(6, cboUsoPerfil.getSelectedItem().toString()); // tem que converter para String
 
             // validação dos campos obrigatórios
-            if ((txtUsuId.getText().isEmpty()) || 
-                    (txtUsuNome.getText().isEmpty()) ||
-                    (txtUsoLogin.getText().isEmpty()) ||
-                    (txtUsoSenha.getText().isEmpty())) {
+            if ((txtUsuId.getText().isEmpty())
+                    || (txtUsuNome.getText().isEmpty())
+                    || (txtUsoLogin.getText().isEmpty())
+                    || (txtUsoSenha.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
             } else {
 
@@ -91,6 +91,44 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
 
+    }
+
+    // criando método para alterar dados do usuário 
+    private void alterar() {
+        String sql = "update tbusuarios set usuario=?, fone=?, login=?, senha=?, perfil=? where iduser=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtUsuNome.getText());
+            pst.setString(2, txtUsoFone.getText());
+            pst.setString(3, txtUsoLogin.getText());
+            pst.setString(4, txtUsoSenha.getText());
+            pst.setString(5, cboUsoPerfil.getSelectedItem().toString());
+            pst.setString(6, txtUsuId.getText());
+
+            if ((txtUsuId.getText().isEmpty())
+                    || (txtUsuNome.getText().isEmpty())
+                    || (txtUsoLogin.getText().isEmpty())
+                    || (txtUsoSenha.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
+            } else {
+
+                // a linha abaixo atualiza a tabela usuários com os dados do formulário
+                // a estrutura abaixo é usada para confirmar a alteração dos dados na tabela
+                int adicionado = pst.executeUpdate();
+                // teste de variável: System.out.println(adicionado);
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Dados do usuário alterados com sucesso!");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsoFone.setText(null);
+                    txtUsoLogin.setText(null);
+                    txtUsoSenha.setText(null);
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -170,6 +208,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsoUpdate.setToolTipText("Atualizar");
         btnUsoUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsoUpdate.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnUsoUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsoUpdateActionPerformed(evt);
+            }
+        });
 
         btnUsoDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/delete.png"))); // NOI18N
         btnUsoDelete.setToolTipText("Apagar");
@@ -272,6 +315,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         // chamando o método adicionar
         adicionar();
     }//GEN-LAST:event_btnUsoCreateActionPerformed
+
+    private void btnUsoUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsoUpdateActionPerformed
+        // chamando o método alterar
+        alterar();
+    }//GEN-LAST:event_btnUsoUpdateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
