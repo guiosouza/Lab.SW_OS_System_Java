@@ -131,6 +131,30 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         }
     }
 
+    // método responsável pela remoção de usuários
+    private void remover() {
+        // a estrutura abaixo confirma a remoção do usuário
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from tbusuarios where iduser=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtUsuId.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuário removido com sucesso!");
+                    txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
+                    txtUsoFone.setText(null);
+                    txtUsoLogin.setText(null);
+                    txtUsoSenha.setText(null);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,6 +187,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Usuários");
         setPreferredSize(new java.awt.Dimension(640, 480));
+        setVisible(true);
 
         jLabel1.setText("*ID");
 
@@ -218,6 +243,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         btnUsoDelete.setToolTipText("Apagar");
         btnUsoDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUsoDelete.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnUsoDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsoDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("*Campos obrigatórios");
 
@@ -292,14 +322,14 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                     .addComponent(cboUsoPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUsoRead, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUsoCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUsoUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUsoDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnUsoRead, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(btnUsoCreate, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(btnUsoUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(btnUsoDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
                 .addGap(72, 72, 72))
         );
 
-        setBounds(0, 0, 633, 498);
+        setBounds(0, 0, 640, 480);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUsuIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuIdActionPerformed
@@ -320,6 +350,11 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         // chamando o método alterar
         alterar();
     }//GEN-LAST:event_btnUsoUpdateActionPerformed
+
+    private void btnUsoDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsoDeleteActionPerformed
+        // chamando o método remover
+        remover();
+    }//GEN-LAST:event_btnUsoDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
