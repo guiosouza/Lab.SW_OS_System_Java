@@ -8,15 +8,18 @@ package br.com.next.telas;
 import java.sql.*;
 import br.com.next.dal.ModuloConexao;
 import javax.swing.JOptionPane;
+// a linha abaixo importa recursos da biblioteca rs2xml.jar
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author guilh
  */
 public class TelaCliente extends javax.swing.JInternalFrame {
-Connection conexao = null;
-PreparedStatement pst = null;
-ResultSet rs = null;
+
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
     /**
      * Creates new form TelaCliente
@@ -25,7 +28,7 @@ ResultSet rs = null;
         initComponents();
         conexao = ModuloConexao.conector();
     }
-    
+
     // método para adicionar clientes
     private void adicionar() {
         String sql = "insert into tbclientes(nomecli, endcli, fonecli, emailcli) values(?,?,?,?)";
@@ -57,6 +60,34 @@ ResultSet rs = null;
             JOptionPane.showMessageDialog(null, e);
         }
 
+    }
+
+    // método para pesquisar clientes pelo nome ou filtro
+    private void pesquisar_cliente() {
+        String sql = "select * from tbclientes where nomecli like ?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            // passando o conteúdo da caixa de pesquisa para o "?"
+            // atenção ao % que é a continuação da string sql
+            pst.setString(1, txtCliPesquisar.getText() + "%");
+            rs = pst.executeQuery();
+            // a linha abaixo usa a biblioteca rs2xml.jar para preencher a tabela
+            tblClientes.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    // método para setar os campos do formulário com o conteúdo da tabela
+    public void setar_campos() {
+        int setar = tblClientes.getSelectedRow();
+        txtCliNome.setText(tblClientes.getModel().getValueAt(setar, 1).toString());
+        txtCliEndereco.setText(tblClientes.getModel().getValueAt(setar, 2).toString());
+        txtCliFone.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
+        txtCliEmail.setText(tblClientes.getModel().getValueAt(setar, 4).toString());
     }
 
     /**
@@ -106,6 +137,12 @@ ResultSet rs = null;
             }
         });
 
+        txtCliPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCliPesquisarKeyReleased(evt);
+            }
+        });
+
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/pesquisar.png"))); // NOI18N
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -119,6 +156,11 @@ ResultSet rs = null;
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblClientes);
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/create.png"))); // NOI18N
@@ -131,7 +173,6 @@ ResultSet rs = null;
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/update.png"))); // NOI18N
 
         btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/delete.png"))); // NOI18N
-        btnRemover.setText("jButton3");
 
         jLabel6.setText("*Campos obrigatórios");
 
@@ -228,6 +269,17 @@ ResultSet rs = null;
         // método para adicionar clientes
         adicionar();
     }//GEN-LAST:event_btnAdicionarActionPerformed
+    // o evento abaixo é do tipo "enquanto for digitando"
+    private void txtCliPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCliPesquisarKeyReleased
+        // chamar o método pesquisar clientes
+        pesquisar_cliente();
+    }//GEN-LAST:event_txtCliPesquisarKeyReleased
+
+    // evento que será usado para setar os campos da tabela (clicando nele)
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        // chamando o método para setar os campos
+        setar_campos();
+    }//GEN-LAST:event_tblClientesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

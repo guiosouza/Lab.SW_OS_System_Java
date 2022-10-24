@@ -181,6 +181,9 @@
       </AccessibilityProperties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCliPesquisar">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCliPesquisarKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -207,6 +210,9 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblClientesMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -232,7 +238,6 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/br/com/next/icones/delete.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jButton3"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
