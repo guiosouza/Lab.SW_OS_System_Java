@@ -8,6 +8,7 @@ package br.com.next.telas;
 import java.sql.*;
 import br.com.next.dal.ModuloConexao;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 // a linha abaixo importa recursos da biblioteca rs2xml.jar
 import net.proteanit.sql.DbUtils;
 
@@ -50,10 +51,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 // teste de variável: System.out.println(adicionado);
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso!");
-                    txtCliNome.setText(null);
-                    txtCliEndereco.setText(null);
-                    txtCliFone.setText(null);
-                    txtCliEmail.setText(null);
+                    limpar();
                 }
             }
         } catch (Exception e) {
@@ -64,7 +62,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     // método para pesquisar clientes pelo nome ou filtro
     private void pesquisar_cliente() {
-        String sql = "select * from tbclientes where nomecli like ?";
+        String sql = "select idcli as ID, nomecli as Nome, endcli as Endereço, fonecli as Fone,\n"
+                + "emailcli as Email from tbclientes where nomecli like ?";
         try {
             pst = conexao.prepareStatement(sql);
             // passando o conteúdo da caixa de pesquisa para o "?"
@@ -114,10 +113,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Dados do cliente alterados com sucesso!");
 
-                    txtCliNome.setText(null);
-                    txtCliEndereco.setText(null);
-                    txtCliFone.setText(null);
-                    txtCliEmail.setText(null);
+                    limpar();
 
                     btnAdicionar.setEnabled(true);
                 }
@@ -139,16 +135,26 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 int apagado = pst.executeUpdate();
                 if (apagado > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente removido com sucesso!");
-                    txtCliNome.setText(null);
-                    txtCliEndereco.setText(null);
-                    txtCliFone.setText(null);
-                    txtCliEmail.setText(null);
+                    
+                    limpar();
+                    
                     btnAdicionar.setEnabled(true);
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+    }
+
+    // método para limpar os campos do formulário
+    private void limpar() {
+        txtCliPesquisar.setText(null);
+        txtCliId.setText(null);
+        txtCliNome.setText(null);
+        txtCliEndereco.setText(null);
+        txtCliFone.setText(null);
+        txtCliEmail.setText(null);
+        ((DefaultTableModel) tblClientes.getModel()).setRowCount(0);
     }
 
     /**
@@ -210,17 +216,24 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/next/icones/pesquisar.png"))); // NOI18N
 
+        tblClientes = new javax.swing.JTable() {
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nome", "Endereço", "Fone", "Email"
             }
         ));
+        tblClientes.setFocusable(false);
+        tblClientes.getTableHeader().setReorderingAllowed(false);
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientesMouseClicked(evt);
