@@ -21,8 +21,8 @@ public class ModuloConexao {
         // chama o driver do tipo do banco:
         String driver = "com.mysql.cj.jdbc.Driver"; // ou: "com.mysql.jdbc.Driver";
         // armazenando informações referente ao banco
-        String url = "jdbc:mysql://localhost:3306/dbnext";
-        String user = "root";
+        String url = "jdbc:mysql://localhost:3306/dbnext?characterEncoding=utf-8";
+        String user = "dba";
         String password = "1234567";
         // Estabelecendo a conexão com o banco
         // Caso ocorra alguns erros:
